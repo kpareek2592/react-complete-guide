@@ -13,7 +13,7 @@ class App extends Component {
     otherstate: 'some  other state value'
   };
 
- switchNameHandler = (newName) => {
+  switchNameHandler = (newName) => {
     // console.log('Was Clicked');
     // DON'T DO THIS: this.state.persons[0].name = 'Silver';
     this.setState({
@@ -26,7 +26,17 @@ class App extends Component {
     });
   };
 
-  render () {
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: 'Silver', age: 28 },
+        { name: event.target.value, age: 29 },
+        { name: 'Charlotte', age: 30 }
+      ]
+    });
+  };
+
+  render() {
     return (
       <div className="App">
         <h1>Hi, I'm a React App</h1>
@@ -34,17 +44,18 @@ class App extends Component {
         <button onClick={() => this.switchNameHandler('Kaido')}>Switch Name</button>
         <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
         <Person name={this.state.persons[1].name} age={this.state.persons[1].age}
-        click = {this.switchNameHandler.bind(this, 'Edward')}>My Hobbies: Racing</Person> 
+          click={this.switchNameHandler.bind(this, 'Edward')}
+          changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
         {/* Use the .bind syntax more */}
         <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
       </div>
     );
   };
-    
-
-    // return React.createElement('div', {className: 'App'}, null, React.createElement('h1', null, 'Does this work now'));
-  }
 
 
+  // return React.createElement('div', {className: 'App'}, null, React.createElement('h1', null, 'Does this work now'));
+}
 
-  export default App;
+
+
+export default App;
