@@ -1,39 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person'
-
+import UserOutput from './UserOutput/UserOutput';
+import UserInput from './UserInput/UserInput';
 
 class App extends Component {
   state = {
-    persons: [
-      { name: 'Max', age: 28 },
-      { name: 'Manual', age: 29 },
-      { name: 'Steph', age: 26 }
-    ],
-    otherstate: 'some  other state value'
-  };
-
-  switchNameHandler = (newName) => {
-    // console.log('Was Clicked');
-    // DON'T DO THIS: this.state.persons[0].name = 'Silver';
-    this.setState({
-      persons: [
-        { name: 'Silver', age: 28 },
-        { name: 'Manual', age: 29 },
-        { name: newName, age: 30 }
-      ],
-      otherstate: 'some other value'
-    });
-  };
+    username: 'Silver'
+  }
 
   nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: 'Silver', age: 28 },
-        { name: event.target.value, age: 29 },
-        { name: 'Charlotte', age: 30 }
-      ]
-    });
+    this.setState({ username: event.target.value })
   };
 
   render() {
@@ -47,16 +23,22 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <p>This is really working.</p>
-        <button 
-          style = {style} onClick={() => this.switchNameHandler('Kaido')}>Switch Name</button>
-        <Person name={this.state.persons[0].name} age={this.state.persons[0].age} />
-        <Person name={this.state.persons[1].name} age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'Edward')}
-          changed={this.nameChangedHandler}>My Hobbies: Racing</Person>
-        {/* Use the .bind syntax more */}
-        <Person name={this.state.persons[2].name} age={this.state.persons[2].age} />
+        <ol>
+          <li>Create TWO new components: UserInput and UserOutputCreate TWO new components: UserInput and UserOutput</li>
+          <li>UserInput should hold an input element, UserOutput two paragraphsUserInput should hold an input element, UserOutput two paragraphs</li>
+          <li>Output multiple UserOutput components in the App component (any paragraph texts of your choice)Output multiple UserOutput components in the App component (any paragraph texts of your choice)</li>
+          <li>Pass a username (of your choice) to UserOutput via props and display it therePass a username (of your choice) to UserOutput via props and display it there</li>
+          <li>Add state to the App component (the username) and pass the username to the UserOutput componentAdd state to the App component (the username) and pass the username to the UserOutput component</li>
+          <li>Add a method to manipulate the state (an event-handler method)Add a method to manipulate the state (an event-handler method)</li>
+          <li>Pass the event-handler method reference to the UserInput component and bind it to the input-change eventPass the event-handler method reference to the UserInput component and bind it to the input-change event</li>
+          <li>Ensure that the new input entered by the user overwrites the old username passed to UserOutputEnsure that the new input entered by the user overwrites the old username passed to UserOutput</li>
+          <li>Add two-way-binding to your input (in UserInput) to also display the starting usernameAdd two-way-binding to your input (in UserInput) to also display the starting username</li>
+          <li>Add styling of your choice to your components/ elements in the components - both with inline styles and stylesheetsAdd styling of your choice to your components/ elements in the components - both with inline styles and stylesheets</li>
+        </ol>
+        <UserInput changed={this.nameChangedHandler} currentName={this.state.username} />
+        <UserOutput userName={this.state.username} />
+        <UserOutput userName={this.state.username} />
+        <UserOutput userName='Ray' />
       </div>
     );
   };
