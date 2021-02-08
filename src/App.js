@@ -28,7 +28,10 @@ class App extends Component {
   // };
 
   deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons;
+    //The below approach updates the array in an immutable fashion.
+    //It creates a copy and then updates it.
+    //const persons = this.state.persons.slice();
+    const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
     console.log(persons);
