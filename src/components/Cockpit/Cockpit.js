@@ -4,10 +4,14 @@ import classes from './Cockpit.css';
 const cockpit = (props) => {
 useEffect(() => {
     console.log('[Cockpit.js] use effect');
-    setTimeout(() => {
+    const timer = setTimeout(() => {
         //alert('Saved some data to cloud');
         console.log('Saved some data to cloud');
     }, 1000);
+    return () => {
+        clearTimeout(timer);
+        console.log('[Cockpit.js] cleapup work in useEffect')
+    }
 }, [props.persons])
 
     const assignedClasses = [];
