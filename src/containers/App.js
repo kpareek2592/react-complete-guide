@@ -4,6 +4,7 @@ import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
 import withClass from '../hoc/withClass'
 import Auxillary from '../hoc/Auxillary';
+import AuthContext from '../context/auth-context'
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class App extends Component {
     ],
     otherState: 'some other value',
     showPersons: false,
-    changeCounter: 0
+    changeCounter: 0,
+    authenticated: false
   }
 
   componentDidMount() {
@@ -47,10 +49,10 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState((prevState, props) => { 
+    this.setState((prevState, props) => {
       return {
-        persons: persons, 
-        changeCounter: prevState.changeCounter + 1 
+        persons: persons,
+        changeCounter: prevState.changeCounter + 1
       };
     });
   };
@@ -67,6 +69,10 @@ class App extends Component {
     this.setState({ showPersons: !doesShow });
   }
 
+  loginHandler = () => {
+    this.setState({ authenticated: true })
+  }
+
   render() {
     console.log('[App.js] render');
     let persons = null;
@@ -75,18 +81,29 @@ class App extends Component {
       persons = <Persons
         persons={this.state.persons}
         clicked={this.deletePersonHandler}
-        changed={this.nameChangedHandler} />
+        changed={this.nameChangedHandler}
+        isAuthenticated={this.state.authenticated}
+      />
     }
 
     return (
 
       <Auxillary classes={classes.App}>
-        <Cockpit
-          title={this.props.appTitle}
-          showPersons={this.state.showPersons}
-          persons={this.state.persons}
-          clicked={this.togglePersonsHandler} />
-        {persons}
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler
+          }}
+        >
+          <Cockpit
+            title={this.props.appTitle}
+            showPersons={this.state.showPersons}
+            persons={this.state.persons}
+            clicked={this.togglePersonsHandler}
+            login={this.loginHandler}
+          />
+          {persons}
+        </AuthContext.Provider>
       </Auxillary>
 
     );
