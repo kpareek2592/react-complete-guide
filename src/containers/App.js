@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import classes from './App.css'
 import Persons from '../components/Persons/Persons'
 import Cockpit from '../components/Cockpit/Cockpit'
-import WithClass from '../hoc/WithClass'
+import withClass from '../hoc/withClass'
+import Auxillary from '../hoc/Auxillary';
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +18,8 @@ class App extends Component {
       { id: 'asdf11', name: 'Stephanie', age: 26 }
     ],
     otherState: 'some other value',
-    showPersons: false
+    showPersons: false,
+    changeCounter: 0
   }
 
   componentDidMount() {
@@ -45,8 +47,13 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({ persons: persons });
-  }
+    this.setState((prevState, props) => { 
+      return {
+        persons: persons, 
+        changeCounter: prevState.changeCounter + 1 
+      };
+    });
+  };
 
   deletePersonHandler = (personIndex) => {
     // const persons = this.state.persons.slice();
@@ -73,14 +80,14 @@ class App extends Component {
 
     return (
 
-      <WithClass classes={classes.App}>
+      <Auxillary classes={classes.App}>
         <Cockpit
           title={this.props.appTitle}
           showPersons={this.state.showPersons}
           persons={this.state.persons}
           clicked={this.togglePersonsHandler} />
         {persons}
-      </WithClass>
+      </Auxillary>
 
     );
 
@@ -88,4 +95,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withClass(App, classes.App);
